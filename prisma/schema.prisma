@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Course {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  level       String     // "beginner" | "intermediate" | "advanced"
+  duration    Int        // minutes
+  price       Float
+  maxStudents Int        @default(4)
+  imageUrl    String?
+  isActive    Boolean    @default(true)
+  timeSlots   TimeSlot[]
+  createdAt   DateTime   @default(now())
+}
+
+model TimeSlot {
+  id          String    @id @default(cuid())
+  courseId    String
+  course      Course    @relation(fields: [courseId], references: [id])
+  date        DateTime
+  startTime   String    // "09:00"
+  endTime     String    // "12:00"
+  maxStudents Int
+  status      String    @default("available") // "available" | "full" | "cancelled"
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+}
+
+model Booking {
+  id         String   @id @default(cuid())
+  timeSlotId String
+  timeSlot   TimeSlot @relation(fields: [timeSlotId], references: [id])
+  name       String
+  email      String
+  phone      String
+  message    String?
+  status     String   @default("pending") // "pending" | "confirmed" | "cancelled"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
