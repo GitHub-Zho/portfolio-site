@@ -14,12 +14,13 @@ export function Hero() {
 
   function handleDragEnd(_: unknown, info: PanInfo) {
     const dx = info.offset.x
+    const vx = info.velocity.x
     if (isDark) {
-      if (dx < -60) triggerTrap()
+      if (dx < -50 || vx < -300) triggerTrap()
       return
     }
-    if (dx > 80) setIsPuzzleOpen(true)
-    else if (dx < -60) router.push('/resume')
+    if (dx > 50 || vx > 300) setIsPuzzleOpen(true)
+    else if (dx < -50 || vx < -300) router.push('/resume')
   }
 
   return (

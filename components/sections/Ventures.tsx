@@ -5,6 +5,12 @@ import Link from 'next/link'
 import { VENTURES } from '@/lib/content'
 
 export function Ventures() {
+  function saveScroll() {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('homeScrollY', String(window.scrollY))
+    }
+  }
+
   return (
     <section className="px-6 sm:px-12 py-20">
       <p className="text-xs tracking-[0.2em] uppercase text-espresso-dim mb-10">我在做的事</p>
@@ -19,6 +25,7 @@ export function Ventures() {
           >
             <Link
               href={v.href}
+              onClick={saveScroll}
               className="block px-6 py-4 rounded-full bg-white/70 hover:bg-white shadow-sm transition-colors"
             >
               <span className="font-serif font-medium">{v.title}</span>
