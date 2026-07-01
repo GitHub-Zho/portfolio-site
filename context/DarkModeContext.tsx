@@ -1,8 +1,10 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect } from 'react'
 
 export type DarkModeState = 'light' | 'entering' | 'dark'
+
+const STORAGE_KEY = 'portfolio-dark-mode'
 
 interface DarkModeCtx {
   mode: DarkModeState
@@ -16,11 +18,25 @@ interface DarkModeCtx {
 const Ctx = createContext<DarkModeCtx | null>(null)
 
 export function DarkModeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState<DarkModeState>('light')
+  // Restore from localStorage on mount (skip glitch animation on return visits)
+  const [mode, setMode] = useState<DarkModeState>(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem(STORAGE_KEY) === 'dark') {
+      return 'dark'
+    }
+    return 'light'
+  })
   const [isTrapActive, setIsTrapActive] = useState(false)
 
   const startEntry = useCallback(() => setMode('entering'), [])
-  const activateDark = useCallback(() => setMode('dark'), [])
+  const activateDark = useCallback(() => {
+    setMode('dark')
+    localStorage.setItem(STORAGE_KEY, 'dark')
+  }, [])
+
+  // Persist mode changes
+  useEffect(() => {
+    if (mode !== 'dark') localStorage.removeItem(STORAGE_KEY)
+  }, [mode])
 
   const triggerTrap = useCallback(() => {
     if (isTrapActive) return
