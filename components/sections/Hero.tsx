@@ -1,96 +1,51 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { motion, type PanInfo } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ResumeSwipeHint } from '@/components/ui/ResumeSwipeHint'
-import { DarkPuzzleGate } from '@/components/dark/DarkPuzzleGate'
 import { useDarkMode } from '@/context/DarkModeContext'
 
 export function Hero() {
-  const { isDark, triggerTrap } = useDarkMode()
-  const [isPuzzleOpen, setIsPuzzleOpen] = useState(false)
-
-  // Touch/mouse drag: right swipe → puzzle, left swipe in dark → trap
-  // Left swipe NO LONGER navigates — avoids browser history back/forward conflict
-  function handleDragEnd(_: unknown, info: PanInfo) {
-    const dx = info.offset.x
-    const vx = info.velocity.x
-    if (isDark) {
-      if (dx < -50 || vx < -300) triggerTrap()
-      return
-    }
-    if (dx > 50 || vx > 300) setIsPuzzleOpen(true)
-  }
-
-  // Desktop fallback: triple-click on hero section opens puzzle
-  const clickCountRef = useRef(0)
-  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-  function handleSectionClick() {
-    if (isDark) return
-    clickCountRef.current++
-    clearTimeout(clickTimerRef.current)
-    if (clickCountRef.current >= 3) {
-      clickCountRef.current = 0
-      setIsPuzzleOpen(true)
-    } else {
-      clickTimerRef.current = setTimeout(() => { clickCountRef.current = 0 }, 500)
-    }
-  }
+  const { isDark } = useDarkMode()
 
   return (
-    <>
-      <motion.section
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.18}
-        onDragEnd={handleDragEnd}
-        onClick={handleSectionClick}
-        style={{ cursor: 'default', userSelect: 'none' }}
-        className={`px-6 sm:px-12 pt-10 pb-24 transition-colors duration-700 ${
-          isDark ? 'bg-transparent' : ''
-        }`}
-      >
-        <nav className="flex justify-between text-sm mb-20">
-          <span
-            className="font-medium"
-            style={{
-              fontFamily: isDark ? 'var(--font-mono)' : undefined,
-              color: isDark ? '#d0d0c0' : undefined,
-            }}
-          >
-            {isDark ? '███ Jo' : 'Mr. Jo'}
-          </span>
-          <span
-            style={{
-              color: isDark ? '#3a3a30' : undefined,
-              fontFamily: isDark ? 'var(--font-mono)' : undefined,
-              fontSize: isDark ? '11px' : undefined,
-            }}
-            className={isDark ? '' : 'text-espresso-dim'}
-          >
-            {isDark ? '[ 记录 / 存档 / ████ ]' : '关于 · 故事 · 在做的事'}
-          </span>
-        </nav>
-
-        {isDark ? (
-          <DarkHeroContent />
-        ) : (
-          <LightHeroContent />
-        )}
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-10"
+    <section
+      className={`px-6 sm:px-12 pt-10 pb-24 transition-colors duration-700 ${
+        isDark ? 'bg-transparent' : ''
+      }`}
+    >
+      <nav className="flex justify-between text-sm mb-20">
+        <span
+          className="font-medium"
+          style={{
+            fontFamily: isDark ? 'var(--font-mono)' : undefined,
+            color: isDark ? '#d0d0c0' : undefined,
+          }}
         >
-          <ResumeSwipeHint />
-          {isDark && <DarkSwipeHint />}
-        </motion.div>
-      </motion.section>
+          {isDark ? '███ Jo' : 'Mr. Jo'}
+        </span>
+        <span
+          style={{
+            color: isDark ? '#3a3a30' : undefined,
+            fontFamily: isDark ? 'var(--font-mono)' : undefined,
+            fontSize: isDark ? '11px' : undefined,
+          }}
+          className={isDark ? '' : 'text-espresso-dim'}
+        >
+          {isDark ? '[ 记录 / 存档 / ████ ]' : '关于 · 故事 · 在做的事'}
+        </span>
+      </nav>
 
-      <DarkPuzzleGate isOpen={isPuzzleOpen} onClose={() => setIsPuzzleOpen(false)} />
-    </>
+      {isDark ? <DarkHeroContent /> : <LightHeroContent />}
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+        className="mt-10"
+      >
+        <ResumeSwipeHint />
+      </motion.div>
+    </section>
   )
 }
 
@@ -182,25 +137,5 @@ function DarkHeroContent() {
         你已经进来了。
       </motion.p>
     </>
-  )
-}
-
-function DarkSwipeHint() {
-  return (
-    <motion.p
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, delay: 1.2 }}
-      style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize: '10px',
-        color: '#2a2a28',
-        letterSpacing: '0.08em',
-        marginTop: '0.5rem',
-        userSelect: 'none',
-      }}
-    >
-      ← 左滑，试试看
-    </motion.p>
   )
 }

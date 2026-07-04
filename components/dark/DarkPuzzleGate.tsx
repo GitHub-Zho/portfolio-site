@@ -4,7 +4,13 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDarkMode } from '@/context/DarkModeContext'
 
-const ANSWER = '星辰大海'
+// 「是我，亦非我，皆是我。」— 页脚签名句，标点/空格任意变体均接受
+const ANSWER = '是我亦非我皆是我'
+
+// 只保留 CJK 字符：去掉所有标点、空格、全半角符号
+function normalize(s: string) {
+  return s.replace(/[^一-鿿]/g, '')
+}
 
 interface Props {
   isOpen: boolean
@@ -15,6 +21,7 @@ export function DarkPuzzleGate({ isOpen, onClose }: Props) {
   const { startEntry } = useDarkMode()
   const [input, setInput] = useState('')
   const [error, setError] = useState(false)
+  const [checking, setChecking] = useState(false)
   const [shakeKey, setShakeKey] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -22,20 +29,28 @@ export function DarkPuzzleGate({ isOpen, onClose }: Props) {
     if (isOpen) {
       setInput('')
       setError(false)
+      setChecking(false)
       setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [isOpen])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (input.trim() === ANSWER) {
-      onClose()
-      setTimeout(() => startEntry(), 80)
-    } else {
-      setError(true)
-      setShakeKey(k => k + 1)
-      setTimeout(() => setError(false), 2500)
-    }
+    if (checking || !input.trim()) return
+    setChecking(true)
+    setError(false)
+    // 刻意的核验停顿——档案系统不会立刻回答你
+    setTimeout(() => {
+      setChecking(false)
+      if (normalize(input) === ANSWER) {
+        onClose()
+        setTimeout(() => startEntry(), 80)
+      } else {
+        setError(true)
+        setShakeKey(k => k + 1)
+        setTimeout(() => setError(false), 2500)
+      }
+    }, 1100)
   }
 
   return (
@@ -109,12 +124,12 @@ export function DarkPuzzleGate({ isOpen, onClose }: Props) {
 
             <p style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: 'clamp(11px, 1.8vw, 13px)',
-              color: '#4a4a3a',
+              fontSize: 'clamp(13px, 2.2vw, 16px)',
+              color: '#8f8f80',
               lineHeight: 1.7,
               marginBottom: '1.5rem',
             }}>
-              主体的既定目标是什么？
+              你是谁？
             </p>
 
             <form onSubmit={handleSubmit}>
@@ -123,8 +138,9 @@ export function DarkPuzzleGate({ isOpen, onClose }: Props) {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="输入答案..."
+                placeholder="回答..."
                 autoComplete="off"
+                disabled={checking}
                 style={{
                   width: '100%',
                   boxSizing: 'border-box',
@@ -137,12 +153,31 @@ export function DarkPuzzleGate({ isOpen, onClose }: Props) {
                   borderRadius: '4px',
                   outline: 'none',
                   transition: 'border-color 0.2s',
+                  opacity: checking ? 0.5 : 1,
                 }}
               />
 
-              <AnimatePresence>
-                {error && (
+              <AnimatePresence mode="wait">
+                {checking && (
                   <motion.p
+                    key="checking"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.1, repeat: Infinity }}
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '11px',
+                      color: '#4a4a3a',
+                      marginTop: '8px',
+                    }}
+                  >
+                    核验中...
+                  </motion.p>
+                )}
+                {error && !checking && (
+                  <motion.p
+                    key="error"
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
@@ -153,7 +188,7 @@ export function DarkPuzzleGate({ isOpen, onClose }: Props) {
                       marginTop: '8px',
                     }}
                   >
-                    错误。答案在主页里。
+                    错误。答案就在这个世界里。
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -164,7 +199,7 @@ export function DarkPuzzleGate({ isOpen, onClose }: Props) {
                 color: '#2a2a28',
                 marginTop: '10px',
               }}>
-                提示：主页 slogan 的最后四个字
+                提示：它写在世界的尽头。
               </p>
             </form>
           </motion.div>

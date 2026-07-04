@@ -89,7 +89,16 @@ export function JourneyAndLog() {
       >
         {/* ── LEFT: Journey ── */}
         <div>
-          <p className="text-xs tracking-[0.2em] uppercase text-espresso-dim mb-10">我的故事</p>
+          <p
+            className="text-xs tracking-[0.2em] uppercase mb-10"
+            style={{
+              color: isDark ? '#3a3a30' : 'var(--color-espresso-dim)',
+              fontFamily: isDark ? 'var(--font-mono)' : undefined,
+              transition: 'color 0.6s',
+            }}
+          >
+            {isDark ? '[ 轨迹 / 回放 ]' : '我的故事'}
+          </p>
           <div className="space-y-8">
             {JOURNEY_STEPS.map((step, i) => (
               <motion.div
@@ -100,10 +109,21 @@ export function JourneyAndLog() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="flex items-center gap-4"
               >
-                <span className="w-3 h-3 rounded-full shrink-0" style={{ background: step.color }} />
+                <span
+                  className="w-3 h-3 rounded-full shrink-0"
+                  style={{
+                    background: isDark ? 'rgba(107, 28, 43, 0.75)' : step.color,
+                    transition: 'background 0.6s',
+                  }}
+                />
                 <h3
-                  className="font-serif font-medium"
-                  style={{ fontSize: 'clamp(1rem, 1.8vw, 1.2rem)' }}
+                  className={isDark ? 'font-medium' : 'font-serif font-medium'}
+                  style={{
+                    fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
+                    fontFamily: isDark ? 'var(--font-mono)' : undefined,
+                    color: isDark ? '#8f8f80' : undefined,
+                    transition: 'color 0.6s',
+                  }}
                 >
                   {step.title}
                 </h3>
