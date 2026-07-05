@@ -33,6 +33,15 @@ model TimeSlot {
   createdAt   DateTime  @default(now())
 }
 
+// 暗界来访者：门后仪式收集的名字（Phase 12）
+model Echo {
+  id             String   @id @default(cuid())
+  name           String // D1「你是谁？」的回答，服务端截断至 24 字符
+  identityAnswer String? // D3「那么我是谁？」的回答，截断至 64 字符
+  completed      Boolean  @default(false) // 是否通过最终验证进入暗界
+  createdAt      DateTime @default(now())
+}
+
 model Booking {
   id         String   @id @default(cuid())
   timeSlotId String

@@ -9,6 +9,8 @@ export type DarkModeState = 'light' | 'entering' | 'dark'
 // Deliberately NOT localStorage: the dark world must stay a discovered state,
 // and persisting it would trap visitors forever (refresh is the sole exit).
 let persistedMode: DarkModeState = 'light'
+// 访客在门口交出的名字（D1 的回答）——同样的语义：刷新即忘。
+let persistedName = ''
 
 interface DarkModeCtx {
   mode: DarkModeState
@@ -17,6 +19,8 @@ interface DarkModeCtx {
   activateDark: () => void
   triggerTrap: () => void
   isTrapActive: boolean
+  visitorName: string
+  setVisitorName: (name: string) => void
 }
 
 const Ctx = createContext<DarkModeCtx | null>(null)
@@ -26,11 +30,17 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
   // 'entering' does not (the glitch sequence shouldn't resume half-played).
   const [mode, setMode] = useState<DarkModeState>(persistedMode === 'dark' ? 'dark' : 'light')
   const [isTrapActive, setIsTrapActive] = useState(false)
+  const [visitorName, setVisitorNameState] = useState(persistedName)
 
   const startEntry = useCallback(() => setMode('entering'), [])
   const activateDark = useCallback(() => {
     persistedMode = 'dark'
     setMode('dark')
+  }, [])
+
+  const setVisitorName = useCallback((name: string) => {
+    persistedName = name
+    setVisitorNameState(name)
   }, [])
 
   const triggerTrap = useCallback(() => {
@@ -40,7 +50,7 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
   }, [isTrapActive])
 
   return (
-    <Ctx.Provider value={{ mode, isDark: mode === 'dark', startEntry, activateDark, triggerTrap, isTrapActive }}>
+    <Ctx.Provider value={{ mode, isDark: mode === 'dark', startEntry, activateDark, triggerTrap, isTrapActive, visitorName, setVisitorName }}>
       {children}
     </Ctx.Provider>
   )

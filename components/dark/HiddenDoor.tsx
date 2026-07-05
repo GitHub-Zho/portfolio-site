@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useDarkMode } from '@/context/DarkModeContext'
-import { DarkPuzzleGate } from '@/components/dark/DarkPuzzleGate'
+import { DoorRitual } from '@/components/dark/DoorRitual'
 
 // Hover ~2.8s to fully open; press (mobile long-press) opens faster.
 // Disengaging decays progress back — the door swings shut on its own.
@@ -23,8 +23,7 @@ export function HiddenDoor() {
   const [progress, setProgress] = useState(0)
   const [inView, setInView] = useState(false)
   const [crackFlash, setCrackFlash] = useState(false)
-  const [pullIn, setPullIn] = useState<{ x: number; y: number } | null>(null)
-  const [isPuzzleOpen, setIsPuzzleOpen] = useState(false)
+  const [isRitualOpen, setIsRitualOpen] = useState(false)
 
   const hoverRef = useRef(false)
   const pressRef = useRef(false)
@@ -47,12 +46,8 @@ export function HiddenDoor() {
     if (p >= 1 && !openedRef.current) {
       openedRef.current = true
       runningRef.current = false
-      const rect = doorRef.current?.getBoundingClientRect()
-      const x = rect ? rect.left + rect.width / 2 : window.innerWidth - 60
-      const y = rect ? rect.top + rect.height / 2 : window.innerHeight - 90
-      setPullIn({ x, y })
-      // Puzzle appears once the darkness has swallowed the viewport
-      setTimeout(() => setIsPuzzleOpen(true), 620)
+      // 门保持敞开，对话纸片从门里展开——页面不再变黑，可随时回看
+      setIsRitualOpen(true)
       return
     }
     if (engaged || p > 0) {
@@ -137,9 +132,8 @@ export function HiddenDoor() {
     setProgress(0)
   }, [isDark])
 
-  function handlePuzzleClose() {
-    setIsPuzzleOpen(false)
-    setPullIn(null)
+  function handleRitualClose() {
+    setIsRitualOpen(false)
     openedRef.current = false
     progressRef.current = 0
     hoverRef.current = false
@@ -268,21 +262,7 @@ export function HiddenDoor() {
         </AnimatePresence>
       </div>
 
-      {/* Pull-in: the dark behind the door swallows the viewport */}
-      <AnimatePresence>
-        {pullIn && (
-          <motion.div
-            key="door-pullin"
-            initial={{ clipPath: `circle(0px at ${pullIn.x}px ${pullIn.y}px)` }}
-            animate={{ clipPath: `circle(160vmax at ${pullIn.x}px ${pullIn.y}px)` }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.55, ease: [0.6, 0, 0.8, 1] }}
-            style={{ position: 'fixed', inset: 0, zIndex: 7000, background: '#050607' }}
-          />
-        )}
-      </AnimatePresence>
-
-      <DarkPuzzleGate isOpen={isPuzzleOpen} onClose={handlePuzzleClose} />
+      <DoorRitual isOpen={isRitualOpen} onClose={handleRitualClose} />
     </>
   )
 }

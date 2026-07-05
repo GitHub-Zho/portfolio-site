@@ -84,6 +84,7 @@ function LightHeroContent() {
 }
 
 function DarkHeroContent() {
+  const { visitorName } = useDarkMode()
   return (
     <>
       <motion.p
@@ -134,7 +135,7 @@ function DarkHeroContent() {
           animation: 'dark-breathe 4.5s ease-in-out infinite',
         }}
       >
-        你已经进来了。
+        {visitorName ? `${visitorName}，你已经进来了。` : '你已经进来了。'}
       </motion.p>
     </>
   )
