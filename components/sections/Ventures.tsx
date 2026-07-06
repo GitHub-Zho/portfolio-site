@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { VENTURES } from '@/lib/content'
 import { useDarkMode } from '@/context/DarkModeContext'
+import { RL } from '@/lib/rustyLake'
 
 export function Ventures() {
   const { isDark } = useDarkMode()
@@ -19,12 +20,13 @@ export function Ventures() {
       <p
         className="text-xs tracking-[0.2em] uppercase mb-10"
         style={{
-          color: isDark ? '#3a3a30' : 'var(--color-espresso-dim)',
-          fontFamily: isDark ? 'var(--font-mono)' : undefined,
+          color: isDark ? RL.brass : 'var(--color-espresso-dim)',
+          fontFamily: isDark ? 'var(--font-serif, serif)' : undefined,
+          letterSpacing: isDark ? '0.3em' : undefined,
           transition: 'color 0.6s',
         }}
       >
-        {isDark ? '[ 产出 / 残留物 ]' : '我在做的事'}
+        {isDark ? '产出 · 残留物' : '我在做的事'}
       </p>
       <div className="flex flex-wrap gap-3">
         {VENTURES.map((v, i) => (
@@ -42,16 +44,15 @@ export function Ventures() {
                 isDark ? '' : 'bg-white/70 hover:bg-white'
               }`}
               style={{
-                background: isDark ? '#0e0f12' : undefined,
-                border: isDark ? '1px solid #1e1e22' : '1px solid transparent',
+                background: isDark ? RL.surface : undefined,
+                border: isDark ? `1px solid ${RL.lineDim}` : '1px solid transparent',
               }}
             >
               <span
-                className={isDark ? '' : 'font-serif font-medium'}
+                className="font-serif font-medium"
                 style={{
-                  fontFamily: isDark ? 'var(--font-mono)' : undefined,
-                  fontSize: isDark ? '13px' : undefined,
-                  color: isDark ? '#d0d0c0' : undefined,
+                  fontSize: isDark ? '0.9rem' : undefined,
+                  color: isDark ? RL.bone : undefined,
                 }}
               >
                 {isDark ? (v.darkTitle ?? v.title) : v.title}

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ResumeSwipeHint } from '@/components/ui/ResumeSwipeHint'
 import { useDarkMode } from '@/context/DarkModeContext'
+import { RL } from '@/lib/rustyLake'
 
 export function Hero() {
   const { isDark } = useDarkMode()
@@ -17,21 +18,24 @@ export function Hero() {
         <span
           className="font-medium"
           style={{
-            fontFamily: isDark ? 'var(--font-mono)' : undefined,
-            color: isDark ? '#d0d0c0' : undefined,
+            fontFamily: isDark ? 'var(--font-serif, serif)' : undefined,
+            color: isDark ? RL.bone : undefined,
+            textDecoration: isDark ? 'line-through' : undefined,
+            textDecorationColor: isDark ? RL.wax : undefined,
           }}
         >
-          {isDark ? '███ Jo' : 'Mr. Jo'}
+          Mr. Jo
         </span>
         <span
           style={{
-            color: isDark ? '#3a3a30' : undefined,
-            fontFamily: isDark ? 'var(--font-mono)' : undefined,
-            fontSize: isDark ? '11px' : undefined,
+            color: isDark ? RL.faint : undefined,
+            fontFamily: isDark ? 'var(--font-serif, serif)' : undefined,
+            fontSize: isDark ? '12px' : undefined,
+            letterSpacing: isDark ? '0.12em' : undefined,
           }}
           className={isDark ? '' : 'text-espresso-dim'}
         >
-          {isDark ? '[ 记录 / 存档 / ████ ]' : '关于 · 故事 · 在做的事'}
+          {isDark ? '记录 · 存档 · 未完' : '关于 · 故事 · 在做的事'}
         </span>
       </nav>
 
@@ -92,29 +96,26 @@ function DarkHeroContent() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
         style={{
-          fontFamily: 'var(--font-mono)',
+          fontFamily: 'var(--font-serif, serif)',
           fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
-          color: '#4a4a3a',
-          letterSpacing: '0.08em',
+          color: RL.brass,
+          letterSpacing: '0.3em',
           marginBottom: '1.25rem',
         }}
       >
-        [ 系统注记 ]
+        — 注记 —
       </motion.p>
 
       <motion.h1
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.35 }}
-        className="glitch-title"
-        data-text="也许，这才是真实的世界。"
         style={{
-          fontFamily: 'var(--font-mono)',
+          fontFamily: 'var(--font-serif, serif)',
           fontSize: 'clamp(1.6rem, 4.5vw, 2.8rem)',
           fontWeight: 500,
-          lineHeight: 1.25,
-          color: '#d0d0c0',
-          position: 'relative',
+          lineHeight: 1.3,
+          color: RL.bone,
           maxWidth: '24ch',
         }}
       >
@@ -126,9 +127,9 @@ function DarkHeroContent() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.7 }}
         style={{
-          fontFamily: 'var(--font-mono)',
+          fontFamily: 'var(--font-serif, serif)',
           fontSize: 'clamp(0.8rem, 1.8vw, 0.95rem)',
-          color: '#3a3a30',
+          color: RL.boneDim,
           lineHeight: 1.8,
           marginTop: '1.5rem',
           maxWidth: '44ch',

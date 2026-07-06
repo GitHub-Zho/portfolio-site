@@ -3,6 +3,8 @@
 import { useDarkMode } from '@/context/DarkModeContext'
 import { GlitchOverlay } from '@/components/transitions/GlitchOverlay'
 import { TrapEffect } from '@/components/transitions/TrapEffect'
+import { WorldEdgeToast } from '@/components/ui/WorldEdgeToast'
+import { RL } from '@/lib/rustyLake'
 
 export function DarkPageShell({ children }: { children: React.ReactNode }) {
   const { isDark, isTrapActive } = useDarkMode()
@@ -11,13 +13,13 @@ export function DarkPageShell({ children }: { children: React.ReactNode }) {
     <main
       className="min-h-screen"
       style={{
-        background: isDark ? '#07080a' : 'var(--color-cream)',
-        color: isDark ? '#d0d0c0' : 'var(--color-espresso)',
+        background: isDark ? RL.bg : 'var(--color-cream)',
+        color: isDark ? RL.bone : 'var(--color-espresso)',
         transition: 'background 0.15s, color 0.15s',
         animation: isTrapActive ? 'dark-shake 0.45s ease-in-out' : 'none',
       }}
     >
-      {/* Scanlines — always on in dark mode */}
+      {/* 胶片颗粒感（锈湖调：比扫描线更柔） */}
       {isDark && (
         <div
           aria-hidden="true"
@@ -26,7 +28,7 @@ export function DarkPageShell({ children }: { children: React.ReactNode }) {
             inset: 0,
             zIndex: 100,
             pointerEvents: 'none',
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.045) 3px, rgba(0,0,0,0.045) 4px)',
+            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.028) 4px, rgba(0,0,0,0.028) 6px)',
           }}
         />
       )}
@@ -46,6 +48,7 @@ export function DarkPageShell({ children }: { children: React.ReactNode }) {
 
       <GlitchOverlay />
       <TrapEffect />
+      <WorldEdgeToast />
       {children}
     </main>
   )

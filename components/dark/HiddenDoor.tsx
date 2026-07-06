@@ -142,7 +142,7 @@ export function HiddenDoor() {
   }
 
   const openDeg = isDark ? 0 : progress * 75
-  const frameColor = isDark ? '#2a2a28' : '#3A2E28'
+  const frameColor = isDark ? '#4a453a' : '#3A2E28'
   const baseOpacity = isDark ? 0.3 : inView ? 0.12 : 0.07
   const opacity = isDark
     ? baseOpacity
@@ -209,7 +209,7 @@ export function HiddenDoor() {
               transformOrigin: 'left center',
               transform: reducedMotion ? 'none' : `rotateY(${-openDeg}deg)`,
               opacity: reducedMotion ? 1 - progress : 1,
-              background: isDark ? '#0e0f12' : 'var(--color-cream, #FBF6F0)',
+              background: isDark ? '#15130f' : 'var(--color-cream, #FBF6F0)',
               border: `1px solid ${frameColor}`,
               borderRadius: '2px 2px 0 0',
             }}

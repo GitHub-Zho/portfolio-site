@@ -1,10 +1,11 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { JOURNEY_STEPS } from '@/lib/content'
 import { journalEntries } from '@/data/journalEntries'
 import { useDarkMode } from '@/context/DarkModeContext'
+import { RL } from '@/lib/rustyLake'
 
 /* ── Journal entry (inner scroll-snap item) ── */
 function LogEntry({
@@ -45,20 +46,21 @@ function LogEntry({
           animate={isDark && isActive && isHaunted ? { opacity: [0.6, 1, 0.7, 1] } : {}}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
           style={{
-            fontFamily: isDark ? 'var(--font-mono)' : 'var(--font-sans)',
+            fontFamily: isDark ? 'var(--font-serif, serif)' : 'var(--font-sans)',
+            fontStyle: isDark ? 'italic' : undefined,
             fontSize: 'clamp(0.65rem, 1.2vw, 0.75rem)',
-            color: isDark ? '#6b1c2b' : 'var(--color-terracotta)',
-            letterSpacing: isDark ? '0.1em' : '0.04em',
+            color: isDark ? RL.brass : 'var(--color-terracotta)',
+            letterSpacing: isDark ? '0.12em' : '0.04em',
             marginBottom: '0.6rem',
           }}
         >
-          {isDark ? `[ ${date} ]` : date}
+          {date}
         </motion.p>
         <p
           style={{
-            fontFamily: isDark ? 'var(--font-mono)' : 'var(--font-serif)',
+            fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)',
-            color: isDark ? (isHaunted ? 'rgba(208,208,192,0.9)' : '#d0d0c0') : 'var(--color-espresso)',
+            color: isDark ? (isHaunted ? 'rgba(214,205,178,0.92)' : RL.bone) : 'var(--color-espresso)',
             lineHeight: 1.7,
             maxWidth: '42ch',
             whiteSpace: 'pre-line',
@@ -92,12 +94,13 @@ export function JourneyAndLog() {
           <p
             className="text-xs tracking-[0.2em] uppercase mb-10"
             style={{
-              color: isDark ? '#3a3a30' : 'var(--color-espresso-dim)',
-              fontFamily: isDark ? 'var(--font-mono)' : undefined,
+              color: isDark ? RL.brass : 'var(--color-espresso-dim)',
+              fontFamily: isDark ? 'var(--font-serif, serif)' : undefined,
+              letterSpacing: isDark ? '0.3em' : undefined,
               transition: 'color 0.6s',
             }}
           >
-            {isDark ? '[ 轨迹 / 回放 ]' : '我的故事'}
+            {isDark ? '轨迹 · 回放' : '我的故事'}
           </p>
           <div className="space-y-8">
             {JOURNEY_STEPS.map((step, i) => (
@@ -112,16 +115,15 @@ export function JourneyAndLog() {
                 <span
                   className="w-3 h-3 rounded-full shrink-0"
                   style={{
-                    background: isDark ? 'rgba(107, 28, 43, 0.75)' : step.color,
+                    background: isDark ? 'rgba(122, 46, 43, 0.8)' : step.color,
                     transition: 'background 0.6s',
                   }}
                 />
                 <h3
-                  className={isDark ? 'font-medium' : 'font-serif font-medium'}
+                  className="font-serif font-medium"
                   style={{
                     fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
-                    fontFamily: isDark ? 'var(--font-mono)' : undefined,
-                    color: isDark ? '#8f8f80' : undefined,
+                    color: isDark ? RL.boneDim : undefined,
                     transition: 'color 0.6s',
                   }}
                 >
@@ -137,15 +139,15 @@ export function JourneyAndLog() {
           <p
             style={{
               fontSize: '11px',
-              letterSpacing: '0.2em',
+              letterSpacing: isDark ? '0.3em' : '0.2em',
               textTransform: 'uppercase',
-              color: isDark ? '#3a3a30' : 'var(--color-espresso-dim)',
-              fontFamily: isDark ? 'var(--font-mono)' : 'var(--font-sans)',
+              color: isDark ? RL.brass : 'var(--color-espresso-dim)',
+              fontFamily: isDark ? 'var(--font-serif, serif)' : 'var(--font-sans)',
               marginBottom: '1.25rem',
               transition: 'color 0.6s',
             }}
           >
-            {isDark ? '[ 记录 / 存档 ]' : '记录'}
+            {isDark ? '记录 · 存档' : '记录'}
           </p>
 
           {/* Scroll-snap container — height = 4 entries worth of reading */}

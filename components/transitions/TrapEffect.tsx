@@ -31,10 +31,10 @@ export function TrapEffect() {
             exit={{ opacity: 0, scale: 1.08 }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
             style={{
-              fontFamily: 'var(--font-mono)',
+              fontFamily: 'var(--font-serif, serif)',
               fontSize: 'clamp(1.6rem, 5vw, 3.2rem)',
-              color: 'rgba(208, 208, 192, 0.12)',
-              letterSpacing: '0.06em',
+              color: 'rgba(214, 205, 178, 0.14)',
+              letterSpacing: '0.1em',
               textAlign: 'center',
               userSelect: 'none',
             }}
