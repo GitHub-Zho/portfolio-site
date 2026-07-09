@@ -49,7 +49,7 @@ const CATEGORIES: Category[] = [
     sublabel: '产品官网 · 数据工具',
     projectNames: [
       'Explore China 2026 — 留学生旅行项目官网',
-      '校招薪资数据采集与分析工具',
+      '薪资数据采集分析 · 简历自动投递助手',
     ],
   },
 ]

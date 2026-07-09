@@ -4,9 +4,9 @@
 //
 // 2026-07-09: added recent GitHub projects, grouped the Agent work together —
 // China Video Bot (20+ agent pipeline) + Dreamina Agent (vision-loop browser
-// agent) join Event-GenAI under the Agent category; Explore China / 校招薪资 /
-// ECE1724 Rust added. Bullets grounded in each repo, matched to the résumé's
-// existing terse achievement-oriented style.
+// agent) join Event-GenAI under the Agent category; Explore China / 薪资采集 +
+// 简历自动投递 / ECE1724 Rust added. Bullets grounded in each repo, matched to
+// the résumé's existing terse achievement-oriented style.
 
 export const RESUME = {
   name: '周宇辰',
@@ -146,11 +146,12 @@ export const RESUME = {
       ],
     },
     {
-      name: '校招薪资数据采集与分析工具',
+      name: '薪资数据采集分析 · 简历自动投递助手',
       period: '2026',
-      tags: ['Python', '数据爬取', '数据清洗', 'Excel 自动化'],
+      tags: ['Python', '数据爬取', '浏览器自动化', 'Excel 自动化'],
       bullets: [
-        '抓取牛客网与 levels.fyi 公开校招薪酬数据，经清洗、去重与聚合后自动导出结构化 Excel 报告，支撑求职过程中的薪资横向对标',
+        '抓取 levels.fyi 等公开薪酬平台数据，经清洗、去重与聚合后产出结构化分析报告，用于薪资横向对标',
+        '在此基础上扩展简历的自动投递与表单自动填写，把重复的求职操作交由程序完成',
       ],
     },
     {
