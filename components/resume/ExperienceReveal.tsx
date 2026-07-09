@@ -36,7 +36,7 @@ export function ExperienceReveal({ experience }: { experience: Job[] }) {
                 className="block text-sm font-medium transition-colors duration-150"
                 style={{ color: isActive ? 'var(--color-terracotta)' : 'var(--color-espresso)' }}
               >
-                {shortCompany(job.company)}
+                {job.short}
               </span>
               <span
                 className="block transition-colors duration-150"
@@ -77,11 +77,4 @@ export function ExperienceReveal({ experience }: { experience: Job[] }) {
       </AnimatePresence>
     </div>
   )
-}
-
-function shortCompany(full: string): string {
-  if (full.includes('美团')) return '美团'
-  if (full.includes('美亚柏科')) return '美亚柏科'
-  if (full.includes('汉印')) return '汉印'
-  return full.split('（')[0].trim()
 }

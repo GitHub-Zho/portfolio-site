@@ -5,62 +5,59 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { RESUME } from '@/lib/resumeContent'
 
 type Project = typeof RESUME.projects[number]
+type Lang = 'zh' | 'en'
 
 interface Category {
   id: string
   label: string
+  labelEn: string
   sublabel: string
-  projectNames: string[]
+  sublabelEn: string
+  projectIds: string[]
 }
 
 const CATEGORIES: Category[] = [
   {
     id: 'agent',
     label: 'Agent / AI',
+    labelEn: 'Agent / AI',
     sublabel: '多 Agent 系统 · 生成式 AI',
-    projectNames: [
-      'China Video Bot — 全自动 AI 短视频生成与发布流水线',
-      'Dreamina Agent — 视觉反馈闭环的自动出图 Agent',
-      'Event-GenAI — 基于 Agent 的活动推荐系统',
-    ],
+    sublabelEn: 'Multi-Agent · Generative AI',
+    projectIds: ['china-video-bot', 'dreamina', 'event-genai'],
   },
   {
     id: 'cv',
     label: 'CV / 视觉',
+    labelEn: 'CV / Vision',
     sublabel: '视频生成 · 联邦学习',
-    projectNames: [
-      '基于姿态引导的视频生成模型（科研）',
-      '面向隐私保护的联邦学习框架',
-    ],
+    sublabelEn: 'Video Gen · Federated Learning',
+    projectIds: ['pose-video', 'federated'],
   },
   {
     id: 'backend',
     label: '后端 / 系统',
+    labelEn: 'Backend / Systems',
     sublabel: '操作系统 · 网络 · Rust',
-    projectNames: [
-      '操作系统内核实现（C++）',
-      '多人在线射击游戏「诺曼底战役」',
-      'Rust 系统级工具实现（多伦多大学 ECE1724）',
-    ],
+    sublabelEn: 'OS · Networking · Rust',
+    projectIds: ['os-kernel', 'normandy', 'rust-ece1724'],
   },
   {
     id: 'web',
     label: 'Web / 数据',
+    labelEn: 'Web / Data',
     sublabel: '产品官网 · 数据工具',
-    projectNames: [
-      'Explore China 2026 — 留学生旅行项目官网',
-      '薪资数据采集分析 · 简历自动投递助手',
-    ],
+    sublabelEn: 'Product Sites · Data Tools',
+    projectIds: ['explore-china', 'salary-apply'],
   },
 ]
 
-export function ProjectCategories({ projects }: { projects: Project[] }) {
+export function ProjectCategories({ projects, lang = 'zh' }: { projects: Project[]; lang?: Lang }) {
   const [activeId, setActiveId] = useState('agent')
 
-  const projectsByName = Object.fromEntries(projects.map((p) => [p.name, p]))
+  const projectsById = Object.fromEntries(projects.map((p) => [p.id, p]))
   const activeCategory = CATEGORIES.find((c) => c.id === activeId)!
-  const activeProjects = activeCategory.projectNames
-    .map((n) => projectsByName[n])
+  const activeProjects = activeCategory.projectIds
+    .map((id) => projectsById[id])
     .filter(Boolean)
 
   return (
@@ -90,7 +87,7 @@ export function ProjectCategories({ projects }: { projects: Project[] }) {
                 className="block text-sm font-medium transition-colors duration-150"
                 style={{ color: isActive ? 'var(--color-terracotta)' : 'var(--color-espresso)' }}
               >
-                {cat.label}
+                {lang === 'en' ? cat.labelEn : cat.label}
               </span>
               <span
                 className="block transition-colors duration-150"
@@ -101,7 +98,7 @@ export function ProjectCategories({ projects }: { projects: Project[] }) {
                   marginTop: '1px',
                 }}
               >
-                {cat.sublabel}
+                {lang === 'en' ? cat.sublabelEn : cat.sublabel}
               </span>
             </button>
           )
@@ -119,7 +116,7 @@ export function ProjectCategories({ projects }: { projects: Project[] }) {
           className="space-y-7"
         >
           {activeProjects.map((proj) => (
-            <div key={proj.name}>
+            <div key={proj.id}>
               <div className="flex justify-between items-baseline flex-wrap gap-1">
                 <h3 className="font-serif text-lg font-medium">{proj.name}</h3>
                 <span className="text-xs text-espresso-dim shrink-0">{proj.period}</span>

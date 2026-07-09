@@ -7,8 +7,24 @@
 // agent) join Event-GenAI under the Agent category; Explore China / 薪资采集 +
 // 简历自动投递 / ECE1724 Rust added. Bullets grounded in each repo, matched to
 // the résumé's existing terse achievement-oriented style.
+//
+// 2026-07-09: bilingual. RESUME (zh) + RESUME_EN (en) share the same shape and
+// the same project `id`s (categories map by id, not name, so the tabs work in
+// both languages). The English side is a meaning-first rendering — same facts,
+// same voice, not a word-for-word translation.
 
-export const RESUME = {
+export interface Resume {
+  name: string
+  title: string
+  contacts: { phone: string; phoneAlt: string; email: string; github: string; linkedin: string }
+  education: { school: string; degree: string; period: string }[]
+  skills: Record<string, string[]>
+  experience: { short: string; company: string; role: string; period: string; bullets: string[] }[]
+  projects: { id: string; name: string; period: string; tags: string[]; bullets: string[] }[]
+  awards: string[]
+}
+
+export const RESUME: Resume = {
   name: '周宇辰',
   title: '多伦多大学工程硕士在读 · 生成式AI / 大数据工程',
   contacts: {
@@ -45,6 +61,7 @@ export const RESUME = {
 
   experience: [
     {
+      short: '美团',
       company: '美团（北京三快在线科技有限公司）',
       role: '系统开发实习生 — 内部数据分析平台',
       period: '2023.05 – 2023.07',
@@ -55,6 +72,7 @@ export const RESUME = {
       ],
     },
     {
+      short: '美亚柏科',
       company: '美亚柏科（厦门美亚柏科信息股份有限公司）',
       role: 'Java 开发实习生 — 大数据工程',
       period: '2022.04 – 2022.07',
@@ -64,6 +82,7 @@ export const RESUME = {
       ],
     },
     {
+      short: '汉印',
       company: '厦门汉印电子有限公司',
       role: '软件开发管培生（前端方向）',
       period: '2021.07 – 2021.09',
@@ -73,6 +92,7 @@ export const RESUME = {
 
   projects: [
     {
+      id: 'os-kernel',
       name: '操作系统内核实现（C++）',
       period: '2022 – 2023',
       tags: ['C/C++', '操作系统', '进程管理', '内存管理'],
@@ -82,6 +102,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'normandy',
       name: '多人在线射击游戏「诺曼底战役」',
       period: '2022',
       tags: ['C++', 'TCP/UDP', 'Socket', '服务端架构'],
@@ -91,6 +112,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'pose-video',
       name: '基于姿态引导的视频生成模型（科研）',
       period: '2023 – 2024',
       tags: ['导师：Changjae Oh 教授（QMUL & 帝国理工）', 'PyTorch', 'GPU/CUDA', 'Stable Diffusion'],
@@ -100,6 +122,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'federated',
       name: '面向隐私保护的联邦学习框架',
       period: '2022 – 2023',
       tags: ['Python', 'PyTorch', 'GPU', '分布式系统'],
@@ -109,6 +132,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'event-genai',
       name: 'Event-GenAI — 基于 Agent 的活动推荐系统',
       period: '2025 – 2026',
       tags: ['Python', 'LangChain', 'OpenAI API', 'Tavily', '排序模型'],
@@ -118,6 +142,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'china-video-bot',
       name: 'China Video Bot — 全自动 AI 短视频生成与发布流水线',
       period: '2026',
       tags: ['Python', '多 Agent 编排', 'Qwen-max / Qwen-VL', 'FFmpeg', 'YouTube / Meta API'],
@@ -128,6 +153,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'dreamina',
       name: 'Dreamina Agent — 视觉反馈闭环的自动出图 Agent',
       period: '2026',
       tags: ['Python', 'Playwright', 'Claude (Sonnet / Haiku)', '浏览器自动化', '视觉评分'],
@@ -137,6 +163,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'explore-china',
       name: 'Explore China 2026 — 留学生旅行项目官网',
       period: '2026',
       tags: ['Astro 5', 'React', 'Tailwind', '双语 i18n', 'Vercel'],
@@ -146,6 +173,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'salary-apply',
       name: '薪资数据采集分析 · 简历自动投递助手',
       period: '2026',
       tags: ['Python', '数据爬取', '浏览器自动化', 'Excel 自动化'],
@@ -155,6 +183,7 @@ export const RESUME = {
       ],
     },
     {
+      id: 'rust-ece1724',
       name: 'Rust 系统级工具实现（多伦多大学 ECE1724）',
       period: '2025',
       tags: ['Rust', 'CLI', '所有权 / 借用', 'Reversi'],
@@ -165,10 +194,190 @@ export const RESUME = {
   ],
 
   awards: [
-    'ACM/ICPC — 北京邮电大学校级金奖（2021）',
+    'CCPC 中国大学生程序设计竞赛 — 北京邮电大学校级金奖（2021）',
     '全国大学生创新创业竞赛 — 国家级三等奖（2023）',
     '校级奖学金（2021、2022、2023）',
     '北京邮电大学优秀毕业生（2024）',
     '其他：高考理综 280+，剑桥 offer',
   ],
 }
+
+// English side — meaning-first, same facts and voice as the Chinese résumé.
+// Same project ids/order so the category tabs resolve identically.
+export const RESUME_EN: Resume = {
+  name: 'Yuchen Zhou',
+  title: 'M.Eng Candidate, University of Toronto · Generative AI / Big-Data Engineering',
+  contacts: RESUME.contacts,
+
+  education: [
+    {
+      school: 'University of Toronto',
+      degree: 'M.Eng — Electrical & Computer Engineering (ECE)',
+      period: '2025 – 2027',
+    },
+    {
+      school: 'Queen Mary University of London (QMUL)',
+      degree: 'Exchange year · GPA 91/100 · First Class Honours',
+      period: '2023 – 2024',
+    },
+    {
+      school: 'Beijing University of Posts & Telecommunications (BUPT)',
+      degree: 'B.Eng, Internet of Things Engineering · GPA 88/100 · Top 5% (16/308)',
+      period: '2020 – 2024',
+    },
+  ],
+
+  skills: {
+    Languages: ['Python', 'Java', 'C/C++', 'SQL', 'Rust', 'Bash / Linux Shell'],
+    'Frameworks & Tools': ['PyTorch', 'TensorFlow', 'LangChain', 'OpenAI / Claude / Qwen API', 'Playwright', 'FFmpeg', 'Kafka', 'Flink', 'Docker', 'Kubernetes', 'Git'],
+    'Focus Areas': ['Multi-Agent Systems', 'Generative AI', 'GPU/CUDA', 'Distributed Training', 'Big-Data Engineering', 'Federated Learning', 'Operating Systems', 'Network Programming'],
+  },
+
+  experience: [
+    {
+      short: 'Meituan',
+      company: 'Meituan (Beijing Sankuai Online Technology)',
+      role: 'Systems Development Intern — Internal Data Analytics Platform',
+      period: '2023.05 – 2023.07',
+      bullets: [
+        'Independently designed, built, and tested core modules of an internal control system; exposed them as Thrift interfaces for the front end and wrote automated test scripts validating both behavior and latency SLAs',
+        'Reworked an inference pipeline’s processing logic, data filtering, and caching — cutting IO round-trips and improving multi-table joins to reduce the data-query module’s end-to-end latency by 30% and lower operating cost',
+        'Owned the data warehouse behind business decisions, delivering visualized reports of key metrics to support internal management',
+      ],
+    },
+    {
+      short: 'Meiya Pico',
+      company: 'Meiya Pico (Xiamen Meiya Pico Information Co.)',
+      role: 'Java Development Intern — Big-Data Engineering',
+      period: '2022.04 – 2022.07',
+      bullets: [
+        'Built a real-time financial data-streaming pipeline on Apache Kafka and Flink, deployed on a Linux cluster, delivering low-latency market data to the trading-strategy team',
+        'Tuned distributed-job configuration and processing algorithms to raise throughput and accuracy; used Docker and Kubernetes to deploy and operate the big-data platform across the cluster',
+      ],
+    },
+    {
+      short: 'HPRT',
+      company: 'Xiamen HPRT Electronics',
+      role: 'Software Development Trainee (Front-End)',
+      period: '2021.07 – 2021.09',
+      bullets: ['Contributed to a business data-visualization system, improving the accuracy and timeliness of market forecasts through precise data collection and statistical analysis'],
+    },
+  ],
+
+  projects: [
+    {
+      id: 'os-kernel',
+      name: 'Operating-System Kernel (C++)',
+      period: '2022 – 2023',
+      tags: ['C/C++', 'Operating Systems', 'Process Management', 'Memory Management'],
+      bullets: [
+        'Built a complete OS kernel from scratch — system daemons, stack allocation, the process PCB module, user/kernel-mode switching, read-write locks, and signal-interrupt handling',
+        'Implemented core process scheduling, memory management, and permission control, gaining a deep understanding of OS internals and systems-level concurrency',
+      ],
+    },
+    {
+      id: 'normandy',
+      name: '“Battle of Normandy” — Online Multiplayer Shooter',
+      period: '2022',
+      tags: ['C++', 'TCP/UDP', 'Socket', 'Server Architecture'],
+      bullets: [
+        'Implemented real-time multi-client communication over TCP/UDP sockets, owning the full path — packet unpacking, parsing, logging, assembly, forwarding, and caching',
+        'Centralized core computation on the server, using algorithm and data-structure optimizations for a high-availability, low-latency concurrent experience',
+      ],
+    },
+    {
+      id: 'pose-video',
+      name: 'Pose-Guided Video Generation (Research)',
+      period: '2023 – 2024',
+      tags: ['Advisor: Prof. Changjae Oh (QMUL & Imperial)', 'PyTorch', 'GPU/CUDA', 'Stable Diffusion'],
+      bullets: [
+        'Extended the Stable Diffusion text-to-image model to video generation, using reference-image inputs for fine-grained control over face, clothing, background, and body pose',
+        'Introduced Cross-Frame Attention and shared latent variables to suppress inter-frame background noise, trading off GPU memory against inference cost to keep the video temporally consistent',
+      ],
+    },
+    {
+      id: 'federated',
+      name: 'Privacy-Preserving Federated Learning Framework',
+      period: '2022 – 2023',
+      tags: ['Python', 'PyTorch', 'GPU', 'Distributed Systems'],
+      bullets: [
+        'Designed a federated-learning pipeline that trains models across distributed GPU nodes via local parameter updates, minimizing cross-node data transfer while preserving privacy',
+        'Applied gradient compression and distributed feature extraction to cut communication overhead substantially without losing accuracy, enabling scalable deployment across heterogeneous devices',
+      ],
+    },
+    {
+      id: 'event-genai',
+      name: 'Event-GenAI — Agent-Based Event Recommender',
+      period: '2025 – 2026',
+      tags: ['Python', 'LangChain', 'OpenAI API', 'Tavily', 'Learning-to-Rank'],
+      bullets: [
+        'Built an LLM-agent pipeline on the Tavily search API and GPT-4, closing the loop from real-time retrieval to content understanding to ranked, personalized event recommendations',
+        'Layered a Learning-to-Rank model on the agent’s output, continuously improving recommendation quality through iterative scoring and feedback',
+      ],
+    },
+    {
+      id: 'china-video-bot',
+      name: 'China Video Bot — End-to-End AI Short-Video Pipeline',
+      period: '2026',
+      tags: ['Python', 'Multi-Agent Orchestration', 'Qwen-max / Qwen-VL', 'FFmpeg', 'YouTube / Meta API'],
+      bullets: [
+        'Designed an orchestrator coordinating 20+ specialized agents (director, script critic, voiceover, footage selection, visual QA, dual-platform publishing) into a hands-off pipeline — from topic choice and storyboard to AI voiceover, subtitles, final cut, and publishing (YouTube 16:9 / Instagram Reels 9:16)',
+        'Used a generator–verifier split: Qwen-max writes the storyboard while a separate critic scores it and triggers rewrites; Qwen-VL scores stock footage, AI images, and reference clips shot-by-shot to pick the best, then QAs the final frames and subtitles with automatic fixes',
+        'Added a reference-video mode: two vision passes over a source video build a timestamped step timeline, then each narration line is matched to real footage for a documentary-style edit; runs on a daily cron on a cloud server, caching frames/timelines locally and auto-renewing the long-lived Instagram token',
+      ],
+    },
+    {
+      id: 'dreamina',
+      name: 'Dreamina Agent — Vision-in-the-Loop Image Agent',
+      period: '2026',
+      tags: ['Python', 'Playwright', 'Claude (Sonnet / Haiku)', 'Browser Automation', 'Vision Scoring'],
+      bullets: [
+        'Drove Dreamina’s (CapCut) image-generation web app through a persistent Playwright browser context to build a generate–act–observe–refine loop: Haiku cheaply writes and rewrites prompts, the browser generates images, and Sonnet’s vision model scores the results',
+        'Iterates automatically toward the target (stopping after N consecutive passing rounds), turning experience-driven “prompt engineering” into a measurable, self-converging feedback loop',
+      ],
+    },
+    {
+      id: 'explore-china',
+      name: 'Explore China 2026 — Study-Abroad Travel Program Site',
+      period: '2026',
+      tags: ['Astro 5', 'React', 'Tailwind', 'Bilingual i18n', 'Vercel'],
+      bullets: [
+        'Built a high-performance bilingual (ZH/EN) static site on Astro 5 + Tailwind to turn social-media traffic into trip applications; itinerary data lives in a single source of truth rendered by templates, eliminating hard-coded prices and copy',
+        'Added pre-build quality gates (image existence, link reachability, ZH/EN route parity) and a Vercel branch-preview deployment workflow',
+      ],
+    },
+    {
+      id: 'salary-apply',
+      name: 'Salary Intelligence & Auto-Apply Assistant',
+      period: '2026',
+      tags: ['Python', 'Web Scraping', 'Browser Automation', 'Excel Automation'],
+      bullets: [
+        'Scrapes public compensation platforms such as levels.fyi, then cleans, de-duplicates, and aggregates the data into structured reports for salary benchmarking',
+        'Extends this into automated résumé submission and form-filling, handing the repetitive parts of job-hunting off to the program',
+      ],
+    },
+    {
+      id: 'rust-ece1724',
+      name: 'Systems-Level Tools in Rust (UofT ECE1724)',
+      period: '2025',
+      tags: ['Rust', 'CLI', 'Ownership / Borrowing', 'Reversi'],
+      bullets: [
+        'Reimplemented command-line tools like curl and grep, plus a Reversi game, from scratch in Rust — internalizing ownership and borrowing, Result/Option error handling, and zero-cost abstractions through hands-on practice',
+      ],
+    },
+  ],
+
+  awards: [
+    'CCPC (China Collegiate Programming Contest) — BUPT campus gold medal (2021)',
+    'National College Student Innovation & Entrepreneurship Competition — National Third Prize (2023)',
+    'University Scholarship (2021, 2022, 2023)',
+    'BUPT Outstanding Graduate (2024)',
+    'Also: Gaokao Science 280+, Cambridge offer',
+  ],
+}
+
+// Section headings + gate copy, per language.
+export const RESUME_UI = {
+  zh: { education: '教育', skills: '技能', experience: '实习经历', projects: '项目经历', awards: '获奖情况' },
+  en: { education: 'Education', skills: 'Skills', experience: 'Experience', projects: 'Projects', awards: 'Awards' },
+} as const
