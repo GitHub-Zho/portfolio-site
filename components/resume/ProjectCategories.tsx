@@ -15,6 +15,16 @@ interface Category {
 
 const CATEGORIES: Category[] = [
   {
+    id: 'agent',
+    label: 'Agent / AI',
+    sublabel: '多 Agent 系统 · 生成式 AI',
+    projectNames: [
+      'China Video Bot — 全自动 AI 短视频生成与发布流水线',
+      'Dreamina Agent — 视觉反馈闭环的自动出图 Agent',
+      'Event-GenAI — 基于 Agent 的活动推荐系统',
+    ],
+  },
+  {
     id: 'cv',
     label: 'CV / 视觉',
     sublabel: '视频生成 · 联邦学习',
@@ -26,24 +36,26 @@ const CATEGORIES: Category[] = [
   {
     id: 'backend',
     label: '后端 / 系统',
-    sublabel: '操作系统 · 网络编程',
+    sublabel: '操作系统 · 网络 · Rust',
     projectNames: [
       '操作系统内核实现（C++）',
       '多人在线射击游戏「诺曼底战役」',
+      'Rust 系统级工具实现（多伦多大学 ECE1724）',
     ],
   },
   {
-    id: 'agent',
-    label: 'Agent / AI',
-    sublabel: 'LLM · 推荐系统',
+    id: 'web',
+    label: 'Web / 数据',
+    sublabel: '产品官网 · 数据工具',
     projectNames: [
-      'Event-GenAI — 基于 Agent 的活动推荐系统',
+      'Explore China 2026 — 留学生旅行项目官网',
+      '校招薪资数据采集与分析工具',
     ],
   },
 ]
 
 export function ProjectCategories({ projects }: { projects: Project[] }) {
-  const [activeId, setActiveId] = useState('cv')
+  const [activeId, setActiveId] = useState('agent')
 
   const projectsByName = Object.fromEntries(projects.map((p) => [p.name, p]))
   const activeCategory = CATEGORIES.find((c) => c.id === activeId)!

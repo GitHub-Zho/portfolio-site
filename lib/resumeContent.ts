@@ -1,6 +1,12 @@
 // Real content, extracted from 周宇辰_简历.docx (2026-06-23).
 // Synthesized (not on the original document): `title` headline below the name —
 // derived from real degree + skill domains on the résumé, not invented. Adjust freely.
+//
+// 2026-07-09: added recent GitHub projects, grouped the Agent work together —
+// China Video Bot (20+ agent pipeline) + Dreamina Agent (vision-loop browser
+// agent) join Event-GenAI under the Agent category; Explore China / 校招薪资 /
+// ECE1724 Rust added. Bullets grounded in each repo, matched to the résumé's
+// existing terse achievement-oriented style.
 
 export const RESUME = {
   name: '周宇辰',
@@ -33,8 +39,8 @@ export const RESUME = {
 
   skills: {
     编程语言: ['Python', 'Java', 'C/C++', 'SQL', 'Rust', 'Bash / Linux Shell'],
-    框架与工具: ['PyTorch', 'TensorFlow', 'Kafka', 'Flink', 'LangChain', 'OpenAI API', 'Docker', 'Kubernetes', 'Hadoop', 'Git'],
-    专业领域: ['GPU/CUDA', '分布式训练', '生成式AI', '大数据工程', '联邦学习', '操作系统', '网络编程'],
+    框架与工具: ['PyTorch', 'TensorFlow', 'LangChain', 'OpenAI / Claude / Qwen API', 'Playwright', 'FFmpeg', 'Kafka', 'Flink', 'Docker', 'Kubernetes', 'Git'],
+    专业领域: ['多 Agent 系统', '生成式 AI', 'GPU/CUDA', '分布式训练', '大数据工程', '联邦学习', '操作系统', '网络编程'],
   },
 
   experience: [
@@ -109,6 +115,50 @@ export const RESUME = {
       bullets: [
         '基于 Tavily 搜索 API 与 GPT-4 构建 LLM Agent 流水线，实现个性化活动的实时检索、内容理解与排序推荐的端到端闭环',
         '集成 Learning-to-Rank 模型对 Agent 输出进行后处理，通过迭代评分与反馈持续优化推荐质量',
+      ],
+    },
+    {
+      name: 'China Video Bot — 全自动 AI 短视频生成与发布流水线',
+      period: '2026',
+      tags: ['Python', '多 Agent 编排', 'Qwen-max / Qwen-VL', 'FFmpeg', 'YouTube / Meta API'],
+      bullets: [
+        '设计 Orchestrator 编排 20+ 个专职 Agent（导演、脚本评审、配音、素材竞选、视觉质检、双平台发布等），打通从选题、分镜脚本、AI 配音字幕到成片与发布（YouTube 16:9 / Instagram Reels 9:16）的端到端无人值守流水线',
+        '采用「生成器—校验器」分离架构：Qwen-max 生成分镜脚本、独立的 Critic 评分并触发重写；Qwen-VL 对库存素材、AI 生成图与参考视频逐镜打分择优，成片后再做画面/字幕质检与自动修复',
+        '实现「参考视频」模式：两遍视觉理解源视频、构建带时间戳的步骤时间轴，将旁白逐句匹配真实片段裁成纪录片式成片；部署于云服务器每日定时运行，本地缓存帧与时间轴、自动续期 Instagram 长效 Token',
+      ],
+    },
+    {
+      name: 'Dreamina Agent — 视觉反馈闭环的自动出图 Agent',
+      period: '2026',
+      tags: ['Python', 'Playwright', 'Claude (Sonnet / Haiku)', '浏览器自动化', '视觉评分'],
+      bullets: [
+        '用 Playwright 持久化浏览器上下文驱动 Dreamina（CapCut）生图 Web 应用，构建「生成—执行—观察—优化」的闭环 Agent：Haiku 低成本生成与改写提示词，浏览器自动出图，Sonnet 视觉模型为结果打分',
+        '以多轮迭代自动逼近目标（连续达标即停），把依赖经验的「提示词工程」转化为可量化、可自动收敛的反馈循环',
+      ],
+    },
+    {
+      name: 'Explore China 2026 — 留学生旅行项目官网',
+      period: '2026',
+      tags: ['Astro 5', 'React', 'Tailwind', '双语 i18n', 'Vercel'],
+      bullets: [
+        '基于 Astro 5 + Tailwind 构建高性能中/英双语静态官网，将社交媒体流量转化为行程申请；行程信息集中于单一数据源、由模板按结构化数据渲染，杜绝价格与文案硬编码',
+        '引入构建前质量门禁（图片存在性、链接可达性、双语路由对等校验）与 Vercel 分支预览部署工作流',
+      ],
+    },
+    {
+      name: '校招薪资数据采集与分析工具',
+      period: '2026',
+      tags: ['Python', '数据爬取', '数据清洗', 'Excel 自动化'],
+      bullets: [
+        '抓取牛客网与 levels.fyi 公开校招薪酬数据，经清洗、去重与聚合后自动导出结构化 Excel 报告，支撑求职过程中的薪资横向对标',
+      ],
+    },
+    {
+      name: 'Rust 系统级工具实现（多伦多大学 ECE1724）',
+      period: '2025',
+      tags: ['Rust', 'CLI', '所有权 / 借用', 'Reversi'],
+      bullets: [
+        '以 Rust 从零实现 curl、grep 等命令行工具及 Reversi 对弈程序，在工程实践中掌握所有权与借用、基于 Result / Option 的错误处理与零成本抽象等系统级范式',
       ],
     },
   ],
