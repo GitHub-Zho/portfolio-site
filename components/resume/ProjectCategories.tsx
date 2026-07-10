@@ -23,7 +23,7 @@ const CATEGORIES: Category[] = [
     labelEn: 'Agent / AI',
     sublabel: '多 Agent 系统 · 生成式 AI',
     sublabelEn: 'Multi-Agent · Generative AI',
-    projectIds: ['china-video-bot', 'dreamina', 'event-genai'],
+    projectIds: ['openclaw', 'china-video-bot', 'dreamina', 'event-genai'],
   },
   {
     id: 'cv',

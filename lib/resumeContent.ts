@@ -142,6 +142,16 @@ export const RESUME: Resume = {
       ],
     },
     {
+      id: 'openclaw',
+      name: 'OpenClaw — 七层子 Agent 的治理式多智能体系统',
+      period: '2026',
+      tags: ['多 Agent 架构', '编排 Orchestration', '治理 Governance', '自动学习', 'Shell'],
+      bullets: [
+        '设计以「主控只编排、不执行」为核心原则的多 Agent 系统：主 Agent 负责任务分类与调度，将工作分派给七个专职子 Agent —— 战略规划、信息研究、提示词优化、实现部署、质量审查、流程学习、对外交互',
+        '制定统一任务流水线（分类 → 反思 → 执行 → 验证交付）与治理规范（AGENTS.md / SOUL.md），内置自动学习：将每次事故与经验沉淀为可移植知识库（lessons / patterns / postmortems），克隆到任意新服务器即可恢复完整架构',
+      ],
+    },
+    {
       id: 'china-video-bot',
       name: 'China Video Bot — 全自动 AI 短视频生成与发布流水线',
       period: '2026',
@@ -313,6 +323,16 @@ export const RESUME_EN: Resume = {
       bullets: [
         'Built an LLM-agent pipeline on the Tavily search API and GPT-4, closing the loop from real-time retrieval to content understanding to ranked, personalized event recommendations',
         'Layered a Learning-to-Rank model on the agent’s output, continuously improving recommendation quality through iterative scoring and feedback',
+      ],
+    },
+    {
+      id: 'openclaw',
+      name: 'OpenClaw — Governed Seven-Sub-Agent System',
+      period: '2026',
+      tags: ['Multi-Agent Architecture', 'Orchestration', 'Governance', 'Auto-Learning', 'Shell'],
+      bullets: [
+        'Designed a multi-agent system around one principle — the main agent orchestrates, never executes: it classifies and routes each task to one of seven specialized sub-agents (strategy, research, prompt optimization, implementation/deployment, QA, process-learning, external ops)',
+        'Defined a uniform task pipeline (classify → reflect → execute → verify & ship) and governance rules (AGENTS.md / SOUL.md), with an auto-learning loop that distills every incident into a portable knowledge base (lessons / patterns / postmortems) — clone it on any new server to restore the full architecture',
       ],
     },
     {
