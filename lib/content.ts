@@ -4,7 +4,7 @@
 
 export const JOURNEY_STEPS = [
   { title: '滑雪滑到狂热', color: 'var(--color-rose)' },
-  { title: '认定了自己会成为程序员', color: 'var(--color-sand)' },
+  { title: '重生之加入 coding 大军', color: 'var(--color-sand)' },
   { title: '一个人背包上路，总能遇见有趣的人', color: 'var(--color-sage)' },
   { title: '仍在继续探索', color: 'var(--color-mauve)' },
 ]
