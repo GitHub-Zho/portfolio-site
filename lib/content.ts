@@ -3,9 +3,9 @@
 // Journal posts live in content/journal/*.mdx (see lib/journal.ts), not here.
 
 export const JOURNEY_STEPS = [
-  { title: '第一次站上雪道', color: 'var(--color-rose)' },
-  { title: '开始写代码', color: 'var(--color-sand)' },
-  { title: '背包去了陌生的城市生活', color: 'var(--color-sage)' },
+  { title: '狂热滑雪爱好者', color: 'var(--color-rose)' },
+  { title: '我将会成为程序员', color: 'var(--color-sand)' },
+  { title: '背包客的 solo trip，总会碰见有趣的人', color: 'var(--color-sage)' },
   { title: '仍在继续探索', color: 'var(--color-mauve)' },
 ]
 
