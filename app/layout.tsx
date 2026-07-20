@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     template: "%s | Mr. Jo",
-    default: "Mr. Jo — 一个想把世界，尝个遍的人",
+    default: "Mr. Jo — 地球 Online 在线玩家",
   },
   description: "滑雪、写代码、到处走走看看，都只是开始——心之所向，是星辰大海。",
   openGraph: {
-    title: "Mr. Jo — 一个想把世界，尝个遍的人",
+    title: "Mr. Jo — 地球 Online 在线玩家",
     description: "滑雪、写代码、到处走走看看，都只是开始——心之所向，是星辰大海。",
     type: "website",
     // TODO: add og-image once real photography exists, see public/CONTENT_TODO.md
