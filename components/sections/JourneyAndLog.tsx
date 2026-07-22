@@ -163,15 +163,17 @@ export function JourneyAndLog() {
               gap: '0',
             }}
           >
-            {journalEntries.map((entry, i) => (
-              <LogEntry
-                key={i}
-                date={entry.date}
-                text={isDark ? entry.dark : entry.light}
-                tier={entry.darkTier}
-                containerRef={containerRef as React.RefObject<HTMLDivElement>}
-              />
-            ))}
+            {[...journalEntries]
+              .sort((a, b) => b.date.localeCompare(a.date))
+              .map((entry) => (
+                <LogEntry
+                  key={entry.date}
+                  date={entry.date}
+                  text={isDark ? entry.dark : entry.light}
+                  tier={entry.darkTier}
+                  containerRef={containerRef as React.RefObject<HTMLDivElement>}
+                />
+              ))}
           </div>
 
           <style>{`

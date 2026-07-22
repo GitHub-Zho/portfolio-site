@@ -5,13 +5,13 @@
 export const JOURNEY_STEPS = [
   { title: '滑雪滑到狂热', color: 'var(--color-rose)' },
   { title: '重生之加入 coding 大军', color: 'var(--color-sand)' },
-  { title: '一个人背包上路，总能遇见有趣的人', color: 'var(--color-sage)' },
+  { title: '背包上路，总能遇见有趣的人', color: 'var(--color-sage)' },
   { title: '仍在继续探索', color: 'var(--color-mauve)' },
 ]
 
 // darkTitle：暗界（镜中世界）里同一入口的另一种诠释 — 占位文案，等用户替换
 export const VENTURES = [
-  { key: 'ski', title: '滑雪私教', darkTitle: '下坠，以及如何习惯它。', href: '/booking' },
+  { key: 'ski', title: '滑雪教练', darkTitle: '下坠，以及如何习惯它。', href: '/booking' },
   { key: 'travel', title: '旅行 · 文化分享', darkTitle: '离开过的地方都还记得你。', href: '/journal?tag=Travel' },
   { key: 'dev', title: '我的项目', darkTitle: '它们还在运行。', href: '/projects' },
   { key: 'more', title: '更多故事', darkTitle: '未归档。', href: '/journal' },
