@@ -4,6 +4,8 @@
 
 生产站点：[portfolio-site-alpha-six-14.vercel.app](https://portfolio-site-alpha-six-14.vercel.app)
 
+项目进度与未完成事项：[`PROJECT_STATUS.md`](PROJECT_STATUS.md)
+
 ## 当前产品边界
 
 - 首页：Hero → 我的故事 / 记录 → MDX Journal → 在做的事 → 世界尽头。
@@ -69,4 +71,4 @@ git push origin main
 
 Vercel 已与 GitHub 仓库绑定，推送后会自动构建并发布。不要把 Vercel CLI 作为常规发布方式；仅在诊断或需要临时预览时使用。
 
-待补齐的内容与素材见 [`public/CONTENT_TODO.md`](public/CONTENT_TODO.md)。完整的产品演进计划目前维护在工作区文档中，不随公开仓库发布，以免把内部规划和个人资料一并公开。
+功能进度、风险和暂缓事项统一维护在 [`PROJECT_STATUS.md`](PROJECT_STATUS.md)；待补齐的具体内容与素材见 [`public/CONTENT_TODO.md`](public/CONTENT_TODO.md)。完整的产品演进计划仍保留在工作区文档中，不随公开仓库发布，以免把内部设计过程和个人资料一并公开。
