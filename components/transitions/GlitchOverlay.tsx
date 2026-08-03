@@ -11,44 +11,40 @@ const SILHOUETTES: Record<number, { left: string; height: string }> = {
 }
 
 export function GlitchOverlay() {
-  const { mode, activateDark } = useDarkMode()
-  const [visible, setVisible] = useState(false)
+  const { activateDark } = useDarkMode()
+  const [reducedMotion] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
   const [showNoise, setShowNoise] = useState(false)
   const [flashBg, setFlashBg] = useState('#ffffff')
-  const [opacity, setOpacity] = useState(1)
-  const [sil, setSil] = useState(0)
+  const [sil, setSil] = useState(reducedMotion ? 0 : 1)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
-  // Stored outside effect deps so mode→'dark' cleanup doesn't cancel it
-  const hideRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => {
-    if (mode !== 'entering') return
-
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    setVisible(true)
-    setShowNoise(false)
-    setOpacity(1)
-    setFlashBg('#ffffff')
-    setSil(reduceMotion ? 0 : 1)
-
     const timers: ReturnType<typeof setTimeout>[] = []
+    if (reducedMotion) {
+      timers.push(setTimeout(activateDark, 120))
+      return () => timers.forEach(clearTimeout)
+    }
+
     timers.push(setTimeout(() => { setFlashBg('#000000'); setSil(0) }, 110))
-    timers.push(setTimeout(() => { setFlashBg('#ffffff'); if (!reduceMotion) setSil(2) }, 230))
+    timers.push(setTimeout(() => { setFlashBg('#ffffff'); setSil(2) }, 230))
     timers.push(setTimeout(() => { setFlashBg('#000000'); setSil(0) }, 360))
-    timers.push(setTimeout(() => { setFlashBg('#ffffff'); if (!reduceMotion) setSil(3) }, 480))
+    timers.push(setTimeout(() => { setFlashBg('#ffffff'); setSil(3) }, 480))
     timers.push(setTimeout(() => { setShowNoise(true); setSil(0) }, 620))
+    // Hold a near-black frame over the old world, then switch the context.
+    // The component unmounts at that point, revealing the matching dark page
+    // rather than fading through the light world underneath.
     timers.push(setTimeout(() => {
-      activateDark()       // mode → 'dark': triggers this effect's cleanup
-      setOpacity(0)
-      setShowNoise(false)  // stops RAF loop
-      // Use ref so effect cleanup (from mode change) doesn't cancel this
-      hideRef.current = setTimeout(() => setVisible(false), 320)
+      setShowNoise(false)
+      setFlashBg('#0d0f0c')
+      setSil(0)
     }, 1080))
+    timers.push(setTimeout(activateDark, 1240))
 
     return () => timers.forEach(clearTimeout)
-  }, [mode, activateDark])
+  }, [activateDark, reducedMotion])
 
   // Stop RAF when showNoise is turned off
   useEffect(() => {
@@ -81,12 +77,9 @@ export function GlitchOverlay() {
   // Unmount cleanup only
   useEffect(() => {
     return () => {
-      if (hideRef.current) clearTimeout(hideRef.current)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
   }, [])
-
-  if (!visible) return null
 
   return (
     <div
@@ -94,9 +87,7 @@ export function GlitchOverlay() {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        opacity,
-        transition: opacity === 0 ? 'opacity 0.32s ease-out' : 'none',
-        pointerEvents: opacity === 0 ? 'none' : 'auto',
+        pointerEvents: 'auto',
       }}
     >
       {!showNoise && (

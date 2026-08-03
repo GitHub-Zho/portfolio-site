@@ -1,5 +1,5 @@
-// Placeholder content — replace with real copy. See public/CONTENT_TODO.md.
-// Adding a new Venture/Journey step is just adding an entry here — no layout changes needed.
+// Homepage copy and venture data. Adding a new Venture/Journey step is just
+// adding an entry here — no layout changes needed. See public/CONTENT_TODO.md.
 // Journal posts live in content/journal/*.mdx (see lib/journal.ts), not here.
 
 export const JOURNEY_STEPS = [

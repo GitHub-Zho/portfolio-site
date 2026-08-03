@@ -25,30 +25,16 @@ export function DoorRitual({ isOpen, onClose }: Props) {
   const [past, setPast] = useState<PastStep[]>([])
   const [view, setView] = useState(0) // 0..past.length；等于 past.length 时在最新一幕
   const [input, setInput] = useState('')
+  const [identity, setIdentity] = useState('')
   const [checking, setChecking] = useState(false)
   const [refusal, setRefusal] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const echoIdRef = useRef<string | null>(null)
-  const identityRef = useRef('')
   const pastRef = useRef<PastStep[]>([])
   const viewRef = useRef(0)
 
   const frontier = past.length
   const atFrontier = view === frontier
-
-  // 每次开门重新开始仪式
-  useEffect(() => {
-    if (isOpen) {
-      pastRef.current = []
-      viewRef.current = 0
-      setPast([])
-      setView(0)
-      setLive('name')
-      setInput('')
-      setChecking(false)
-      setRefusal(false)
-    }
-  }, [isOpen])
 
   // 完成一幕：入历史，若正停在最新一幕则跟随前进
   const advance = useCallback((completed: PastStep, next: Live) => {
@@ -116,7 +102,7 @@ export function DoorRitual({ isOpen, onClose }: Props) {
   const livePrompt =
     live === 'name' ? '你是谁？'
     : live === 'identity' ? '那么——我是谁？'
-    : live === 'final' ? `“${identityRef.current}”……Mr. Jo？那个是我。滑雪的是我，写代码的也是我。那么，我到底是谁？`
+    : live === 'final' ? `“${identity}”……Mr. Jo？那个是我。滑雪的是我，写代码的也是我。那么，我到底是谁？`
     : '……'
 
   function handleSubmit(e: React.FormEvent) {
@@ -131,7 +117,7 @@ export function DoorRitual({ isOpen, onClose }: Props) {
       return
     }
     if (live === 'identity') {
-      identityRef.current = value
+      setIdentity(value)
       patchEcho({ identityAnswer: value })
       setInput('')
       advance({ prompt: '那么——我是谁？', answer: value }, 'beat2')

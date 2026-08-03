@@ -24,6 +24,7 @@ export function HiddenDoor() {
   const [inView, setInView] = useState(false)
   const [crackFlash, setCrackFlash] = useState(false)
   const [isRitualOpen, setIsRitualOpen] = useState(false)
+  const [ritualSession, setRitualSession] = useState(0)
 
   const hoverRef = useRef(false)
   const pressRef = useRef(false)
@@ -33,7 +34,7 @@ export function HiddenDoor() {
   const runningRef = useRef(false)
   const openedRef = useRef(false)
 
-  const step = useCallback((ts: number) => {
+  const step = useCallback(function step(ts: number) {
     const dt = Math.min(ts - lastTsRef.current || 16, 64)
     lastTsRef.current = ts
     const engaged = hoverRef.current || pressRef.current
@@ -47,6 +48,7 @@ export function HiddenDoor() {
       openedRef.current = true
       runningRef.current = false
       // 门保持敞开，对话纸片从门里展开——页面不再变黑，可随时回看
+      setRitualSession((session) => session + 1)
       setIsRitualOpen(true)
       return
     }
@@ -122,16 +124,6 @@ export function HiddenDoor() {
     return () => obs.disconnect()
   }, [isDark])
 
-  // Entering the dark world: the door is shut again, and stays shut.
-  useEffect(() => {
-    if (!isDark) return
-    hoverRef.current = false
-    pressRef.current = false
-    progressRef.current = 0
-    openedRef.current = false
-    setProgress(0)
-  }, [isDark])
-
   function handleRitualClose() {
     setIsRitualOpen(false)
     openedRef.current = false
@@ -141,12 +133,15 @@ export function HiddenDoor() {
     setProgress(0)
   }
 
-  const openDeg = isDark ? 0 : progress * 75
+  // Dark mode never renders an open door. Keeping the raw progress in a ref
+  // avoids a state-reset effect if the world changes while the door is moving.
+  const displayedProgress = isDark ? 0 : progress
+  const openDeg = displayedProgress * 75
   const frameColor = isDark ? '#4a453a' : '#3A2E28'
   const baseOpacity = isDark ? 0.3 : inView ? 0.12 : 0.07
   const opacity = isDark
     ? baseOpacity
-    : Math.max(baseOpacity, Math.min(0.95, 0.12 + progress * 1.1))
+    : Math.max(baseOpacity, Math.min(0.95, 0.12 + displayedProgress * 1.1))
 
   return (
     <>
@@ -162,7 +157,7 @@ export function HiddenDoor() {
           height: '118px',
           opacity,
           transition: 'opacity 0.6s ease',
-          cursor: isDark || progress > 0.04 ? 'pointer' : 'default',
+          cursor: isDark || displayedProgress > 0.04 ? 'pointer' : 'default',
           touchAction: 'none',
           userSelect: 'none',
           WebkitUserSelect: 'none',
@@ -175,7 +170,7 @@ export function HiddenDoor() {
             position: 'absolute',
             inset: '3px',
             background: 'linear-gradient(180deg, #0b1013 0%, #07080a 55%, #101a18 100%)',
-            opacity: Math.min(1, progress * 1.6),
+            opacity: Math.min(1, displayedProgress * 1.6),
           }}
         />
         {/* Cold dark leaking out around the frame (not light — dark) */}
@@ -186,7 +181,7 @@ export function HiddenDoor() {
             background:
               'radial-gradient(ellipse at 35% 50%, rgba(10,16,20,0.55), rgba(26,58,53,0.18) 45%, transparent 72%)',
             filter: 'blur(10px)',
-            opacity: progress * 0.9,
+            opacity: displayedProgress * 0.9,
             pointerEvents: 'none',
           }}
         />
@@ -208,7 +203,7 @@ export function HiddenDoor() {
               inset: 0,
               transformOrigin: 'left center',
               transform: reducedMotion ? 'none' : `rotateY(${-openDeg}deg)`,
-              opacity: reducedMotion ? 1 - progress : 1,
+              opacity: reducedMotion ? 1 - displayedProgress : 1,
               background: isDark ? '#15130f' : 'var(--color-cream, #FBF6F0)',
               border: `1px solid ${frameColor}`,
               borderRadius: '2px 2px 0 0',
@@ -262,7 +257,10 @@ export function HiddenDoor() {
         </AnimatePresence>
       </div>
 
-      <DoorRitual isOpen={isRitualOpen} onClose={handleRitualClose} />
+      {/* A fresh key makes each door opening a new ritual session.  This keeps
+          reset logic in the opening event, rather than synchronously resetting
+          child state from an effect after the dialog is already visible. */}
+      <DoorRitual key={ritualSession} isOpen={isRitualOpen} onClose={handleRitualClose} />
     </>
   )
 }

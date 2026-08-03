@@ -7,7 +7,7 @@ import { WorldEdgeToast } from '@/components/ui/WorldEdgeToast'
 import { RL } from '@/lib/rustyLake'
 
 export function DarkPageShell({ children }: { children: React.ReactNode }) {
-  const { isDark, isTrapActive } = useDarkMode()
+  const { mode, isDark, isTrapActive } = useDarkMode()
 
   return (
     <main
@@ -46,7 +46,9 @@ export function DarkPageShell({ children }: { children: React.ReactNode }) {
         />
       )}
 
-      <GlitchOverlay />
+      {/* The transition is a one-shot component.  Mounting it only for the
+          entering state gives every ritual a clean animation lifecycle. */}
+      {mode === 'entering' && <GlitchOverlay />}
       <TrapEffect />
       <WorldEdgeToast />
       {children}

@@ -27,10 +27,10 @@ export const metadata: Metadata = {
     template: "%s | Mr. Jo",
     default: "Mr. Jo — 地球 Online 在线玩家",
   },
-  description: "滑雪、写代码、到处走走看看，都只是开始——心之所向，是星辰大海。",
+  description: "世界很大，一辈子很长，走走停停，向着星辰大海。",
   openGraph: {
     title: "Mr. Jo — 地球 Online 在线玩家",
-    description: "滑雪、写代码、到处走走看看，都只是开始——心之所向，是星辰大海。",
+    description: "世界很大，一辈子很长，走走停停，向着星辰大海。",
     type: "website",
     // TODO: add og-image once real photography exists, see public/CONTENT_TODO.md
   },
@@ -43,7 +43,7 @@ const personJsonLd = {
   "@type": "Person",
   name: "Mr. Jo",
   url: SITE_URL,
-  description: "滑雪、写代码、到处走走看看 — 都是我喜欢的活法的一部分。",
+  description: "这是我的记录：世界很大，一辈子很长，走走停停，向着星辰大海。",
 };
 
 export default function RootLayout({
